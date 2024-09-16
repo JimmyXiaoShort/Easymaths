@@ -1,0 +1,71 @@
+class vector:
+
+    def __init__(self, dimensions: int = 1):
+        self.dimensions = dimensions
+        self.coordinates = [0] * dimensions
+
+    def __add__(self, other):
+        if isinstance(other, vector):
+            if self.dimensions != other.dimensions:
+                raise ValueError(
+                    "Vectors must have the same dimensions to be added")
+            result = vector(self.dimensions)
+            for i in range(self.dimensions):
+                result.coordinates[
+                    i] = self.coordinates[i] + other.coordinates[i]
+            return result
+        else:
+            raise TypeError("Vector cannot be added with another quantity")
+
+    def __sub__(self, other):
+        if isinstance(other, vector):
+            if self.dimensions != other.dimensions:
+                raise ValueError(
+                    "Vectors must have the same dimensions to be subtracted")
+            result = vector(self.dimensions)
+            for i in range(self.dimensions):
+                result.coordinates[
+                    i] = self.coordinates[i] - other.coordinates[i]
+            return result
+        else:
+            raise TypeError("Vector cannot be subbed with another quantity")
+
+    def __mul__(self, other):
+        if isinstance(other, vector):
+            if self.dimensions != other.dimensions:
+                raise ValueError(
+                    "Vectors must have the same dimensions to be multiplied")
+            result = 0
+            for i in range(self.dimensions):
+                result += self.coordinates[i] * other.coordinates[i]
+            return result
+        else:
+            result = list()
+            for i in range(self.dimensions):
+                result.append(self.coordinates[i] * other)
+            return result
+
+    def __rmul__(self, other):
+        result = vector(self.dimensions)
+        for i in range(self.dimensions):
+            result.coordinates[i] = other * self.coordinates[i]
+        return result
+
+    def __str__(self):
+        return f"Vector {tuple(self.coordinates)}"
+
+    def __repr__(self) -> str:
+        return f"Vector {tuple(self.coordinates)}"
+
+    def setCoordinates(self, *coordinates) -> None:
+        if len(coordinates) != self.dimensions:
+            raise ValueError(
+                "Coordinates must have the same dimensions as the vector")
+        self.coordinates = list(coordinates)
+
+    def getModulus(self):
+        result = 0
+        for i in range(self.dimensions):
+            result += self.coordinates[i]**2
+        result = result**0.5
+        return result
